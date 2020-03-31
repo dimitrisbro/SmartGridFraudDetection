@@ -1,10 +1,17 @@
-#afairesh mhdenikwn grammwn apo to dataset
+# afairesh mhdenikwn grammwn apo to dataset
 
 import pandas as pd
 
 rawData = pd.read_csv('/home/db/Documents/dipl/export_dataframe1.csv')
 data = rawData.drop(['FLAG', 'CONS_NO'], axis=1)
 
+index = data[(data.max(axis=1) == 0)].index
+newData = rawData.drop(index, axis=0)
+print(newData)
+# newData.to_csv(r'/home/db/Documents/dipl/export_dataframe12.csv', index=False, header=True)
+
+
+"""
 l = 0
 flag = 1
 for i in data.max(axis=1):
@@ -19,3 +26,4 @@ for i in data.max(axis=1):
 
 #dataNew.to_csv(r'/home/db/Documents/dipl/ElectricityTheftDetection/data/export_dataframe12.csv', index=False, header=True)
 print(dataNew)
+"""
