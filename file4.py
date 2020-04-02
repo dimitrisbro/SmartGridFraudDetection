@@ -27,7 +27,4 @@ for i in range(32):
     if i%100==0:
         print(i)
 #print(newData.skew(axis=1))
-
-
-#newData.to_csv(r'/home/db/Documents/dipl/export_dataframe14.csv', index=False, header=True)
 '''
