@@ -7,8 +7,9 @@ data = rawData.drop(['FLAG', 'CONS_NO'], axis=1)
 
 dupData = data.duplicated()
 y = data[dupData].index
+print('Duplicated Raws\n',y)
 newData = rawData.drop(y, axis=0)
-print(newData)
+#print(newData)
 # newData.to_csv(r'/home/db/Documents/diplexport_dataframe1.csv', index=False, header=True)
 
 

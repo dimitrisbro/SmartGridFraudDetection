@@ -6,6 +6,7 @@ rawData = pd.read_csv('/home/db/Documents/dipl/export_dataframe1.csv')
 data = rawData.drop(['FLAG', 'CONS_NO'], axis=1)
 
 index = data[(data.max(axis=1) == 0)].index
+print('Raws with Zero Consumption\n',index)
 newData = rawData.drop(index, axis=0)
 print(newData)
 # newData.to_csv(r'/home/db/Documents/dipl/export_dataframe12.csv', index=False, header=True)

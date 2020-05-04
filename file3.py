@@ -3,17 +3,20 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-rawData = pd.read_csv('/home/db/Documents/dipl/export_dataframe12.csv')
-data = rawData.drop(['FLAG', 'CONS_NO'], axis=1)
+#rawData = pd.read_csv('/home/db/Documents/dipl/preprocessed.csv')
+data = pd.read_csv('/home/db/Documents/dipl/visualization.csv')
+#data = rawData.drop(['FLAG', 'CONS_NO'], axis=1)
 
-# print(data['2014/10/10'].loc[7362])  # -->max peirazei ola ta ypoloipa xwris logo
+#print(data.loc[7362].mean())            #watch -->max peirazei ola ta ypoloipa xwris logo
+#print(data['2014/10/10'].loc[7362])     #watch -->max peirazei ola ta ypoloipa xwris logo
 
 totConsPerDay = data.sum(axis=0, skipna=True)
-# print(totConsPerDay)
+print(totConsPerDay)
 totCons = totConsPerDay.sum()
-# print(totCons)
+print("Total Consumption:   ",totCons,"kWh")
 
-totConsPerDay.plot(title="Total Consumption per Day")
+
+totConsPerDay.plot(title="Total Consumption per Day",color='firebrick')
 plt.show()
 
 customer = pd.DataFrame()
@@ -22,23 +25,19 @@ customer['max'] = data.max(axis=1, skipna=True)
 customer['average'] = data.mean(axis=1, skipna=True)
 customer['var'] = data.var(axis=1, skipna=True)
 customer['totCons'] = data.sum(axis=1, skipna=True)
+print("Total Consumer Statistics\n",customer.describe())
+
 
 totMax = data.max().max()
 totMin = data.min().min()
 totMean = data.mean().mean()
 
-'''
-print(totMin)
-print(totMax)
-print(totMean)
-'''
 
-nData = pd.DataFrame()
-nData['FLAG'] = rawData['FLAG']
-nData['CONS_NO'] = rawData['CONS_NO']
+print("Minimum Value:       ", totMin, "kWh")
+print("Maximum Value:       ", totMax, "kWh")
+print("Mean Value:          ", totMean, "kWh")
 
-normalized = (data - totMin) / (totMax - totMin)
-normalizedData = pd.concat([nData, normalized], axis=1, sort=False)
-
-print(normalizedData.head())
+#print(data[data.max(axis=1)>10*data.mean(axis=1)].index)
+#print(data[data.max(axis=1)>20*data.mean(axis=1)].index)
+#print(data.max().sort_values())
 
