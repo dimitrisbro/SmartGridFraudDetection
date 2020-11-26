@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split, KFold
 from sklearn.metrics import accuracy_score, mean_absolute_error, mean_squared_error
-from sklearn.metrics import confusion_matrix, precision_recall_fscore_support, roc_auc_score,roc_curve,auc
+from sklearn.metrics import confusion_matrix, precision_recall_fscore_support, roc_auc_score, roc_curve, auc
 from tensorflow.keras import Sequential
 from tensorflow.keras import layers, models
 import tensorflow as tf
@@ -22,21 +22,23 @@ import matplotlib.pyplot as plt
 
 tf.random.set_seed(1234)
 
-def roc(pred,y_test):
-        fpr, tpr, _ = roc_curve(y_test, pred)
-        roc_auc = auc(fpr, tpr)
-        plt.figure()
-        lw = 2
-        plt.plot(fpr[2], tpr[2], color='darkorange',
-                 lw=lw, label='ROC curve (area = %0.2f)' % roc_auc[2])
-        plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
-        plt.xlim([0.0, 1.0])
-        plt.ylim([0.0, 1.05])
-        plt.xlabel('False Positive Rate')
-        plt.ylabel('True Positive Rate')
-        plt.title('Receiver operating characteristic example')
-        plt.legend(loc="lower right")
-        plt.show()
+
+def roc(pred, y_test):
+    fpr, tpr, _ = roc_curve(y_test, pred)
+    roc_auc = auc(fpr, tpr)
+    plt.figure()
+    lw = 2
+    plt.plot(fpr[2], tpr[2], #color='darkorange'
+             ''',lw=lw ,label='ROC curve (area = %0.2f)' % roc_auc[2]''')
+    plt.plot([0, 1], [0, 1])#, color='navy', lw=lw, linestyle='--'
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    # plt.xlabel('False Positive Rate')
+    # plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic example')
+    # plt.legend(loc="lower right")
+    plt.show()
+
 
 def NN(X_train, X_test, y_train, y_test):
     print('Neural Network:')
@@ -54,12 +56,12 @@ def NN(X_train, X_test, y_train, y_test):
                   optimizer='adam',
                   metrics=['accuracy'])
 
-        # model.fit(X_train, y_train, validation_split=0, epochs=i, shuffle=True, verbose=0)
+    # model.fit(trainX, y_train, validation_split=0, epochs=i, shuffle=True, verbose=0)
     model.fit(X_train, y_train, validation_split=0, epochs=4, shuffle=True, verbose=1)
     prediction = model.predict_classes(X_test)
     # prediction = np.argmax(model.predict(X_test), axis=-1)
-    print("ACC",100 * accuracy_score(y_test, prediction))
-    print("RMSE:", mean_squared_error(y_test, prediction,squared=False))
+    print("ACC", 100 * accuracy_score(y_test, prediction))
+    print("RMSE:", mean_squared_error(y_test, prediction, squared=False))
     print("MAE:", mean_absolute_error(y_test, prediction))
     print("F1:", 100 * precision_recall_fscore_support(y_test, prediction)[2])
     print("ROC:", 100 * roc_auc_score(y_test, prediction))
@@ -101,9 +103,9 @@ def CNN1D(X_train, X_test, y_train, y_test):
     # f = 1
     # for train, test in kfold.split(X, y):
     #     print("Fold Number %s" % (f))
-        #todo: cross validation
+    # todo: cross validation
 
-    #     X_train = X_train.to_numpy().reshape(X.iloc[train].shape[0], X.iloc[train].shape[1], 1)
+    #     trainX = trainX.to_numpy().reshape(X.iloc[train].shape[0], X.iloc[train].shape[1], 1)
     #     X_test = X_test.to_numpy().reshape(X.iloc[test].shape[0], X.iloc[test].shape[1], 1)
     #     model = Sequential()
     #     model.add(Conv1D(100, kernel_size=7, input_shape=(1034, 1), activation='relu'))
@@ -123,16 +125,15 @@ def CNN1D(X_train, X_test, y_train, y_test):
     #
     #     # model.summary()
     #
-    #     model.fit(X_train, y_train, epochs=2, validation_split=0.1, shuffle=False)
+    #     model.fit(trainX, y_train, epochs=2, validation_split=0.1, shuffle=False)
     #     au.append(roc_auc_score(model.predict_classes(X_test),y_test))
-    #     scores = model.evaluate(X_train, y_test, verbose=0)
+    #     scores = model.evaluate(trainX, y_test, verbose=0)
     #     acc_per_fold.append(scores[1] * 100)
     #     loss_per_fold.append(scores[0])
     #     f = f + 1
     # print(f'> Accuracy: {np.mean(acc_per_fold)} (+- {np.std(acc_per_fold)})')
     # print(f'> AUC: {np.mean(au)} (+- {np.std(au)})')
     # print(f'> Loss: {np.mean(loss_per_fold)}')
-
 
     X_train = X_train.to_numpy().reshape(X_train.shape[0], X_train.shape[1], 1)
     X_test = X_test.to_numpy().reshape(X_test.shape[0], X_test.shape[1], 1)
@@ -157,40 +158,38 @@ def CNN1D(X_train, X_test, y_train, y_test):
 
     # model.summary()
 
-    # model.fit(X_train, y_train, epochs=2, validation_split=0.1, shuffle=False, verbose=0)
-    model.fit(X_train, y_train, epochs=2, validation_split=0.1, shuffle=False, verbose=1)
+    # model.fit(trainX, y_train, epochs=1, validation_split=0.1, shuffle=False, verbose=1)
+    model.fit(X_train, y_train, epochs=4, validation_split=0.1, shuffle=False, verbose=1)
     prediction = model.predict_classes(X_test)
-    print("ACC",100 * accuracy_score(y_test, prediction))
-    print("RMSE:", mean_squared_error(y_test, prediction,squared=False))
+    print("ACC", 100 * accuracy_score(y_test, prediction))
+    print("RMSE:", mean_squared_error(y_test, prediction, squared=False))
     print("MAE:", mean_absolute_error(y_test, prediction))
     print("F1:", 100 * precision_recall_fscore_support(y_test, prediction)[2])
     print("ROC:", 100 * roc_auc_score(y_test, prediction))
     print(confusion_matrix(y_test, prediction), "\n")
 
 
-
-
 def CNN2D(X_train, X_test, y_train, y_test):
     print('2D - Convolutional Neural Network:')
-    nX = X_train.to_numpy()  # X_train to 2D - array
+    nX = X_train.to_numpy()  # trainX to 2D - array
     b = np.hstack((nX, np.zeros((nX.shape[0], 2))))
-    print(b.shape[0])
+    # print(b.shape[0], "-")
     l = []
     for i in range(b.shape[0]):
         a = np.reshape(b[i], (-1, 7, 1))
         l.append(a)
     m = np.array(l)
-    # print(m.shape)
+    # print(m.shape, "-")
 
     nXt = X_test.to_numpy()  # X_test to 2D - array
     d = np.hstack((nXt, np.zeros((nXt.shape[0], 2))))
-    print(d.shape[0])
+    # print(d.shape[0])
     k = []
     for i in range(d.shape[0]):
         c = np.reshape(d[i], (-1, 7, 1))
         k.append(c)
     n = np.array(k)
-    print(n.shape)
+    # print(n.shape)
     input_shape = (1, 148, 7, 1)
 
     # for i in range(4,100,3):
@@ -199,23 +198,23 @@ def CNN2D(X_train, X_test, y_train, y_test):
     model.add(Conv2D(kernel_size=(7, 3), filters=32, input_shape=input_shape[1:], activation='relu',
                      data_format='channels_last'))
     model.add(Flatten())
-    model.add(Dense(100, activation='relu'))
-    model.add(Dense(100, activation='relu'))
-    model.add(Dense(64, activation='relu'))
+    # model.add(Dense(100, activation='relu'))
+    # model.add(Dense(100, activation='relu'))
+    # model.add(Dense(64, activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
 
     model.compile(loss=keras.losses.binary_crossentropy,
                   optimizer='adam',
                   metrics=['accuracy'])
-        # model.summary()
-        # model.fit(m, y_train, validation_split=0.1, epochs=i, shuffle=False, verbose=0)
-    model.fit(m, y_train, validation_split=0.1, epochs=2, shuffle=False, verbose=1)
+    # model.summary()
+    #     model.fit(m, y_train, validation_split=0.1, epochs=i, shuffle=False, verbose=0)
+    model.fit(m, y_train, validation_split=0.1, epochs=1, shuffle=False, verbose=1)
 
     # prediction = model.predict_classes(X_test)
     prediction = model.predict_classes(n)
     # print(prediction)
-    print("ACC",100 * accuracy_score(y_test, prediction))
-    print("RMSE:", mean_squared_error(y_test, prediction,squared=False))
+    print("ACC", 100 * accuracy_score(y_test, prediction))
+    print("RMSE:", mean_squared_error(y_test, prediction, squared=False))
     print("MAE:", mean_absolute_error(y_test, prediction))
     print("F1:", 100 * precision_recall_fscore_support(y_test, prediction)[2])
     print("ROC:", 100 * roc_auc_score(y_test, prediction))
@@ -226,15 +225,15 @@ def LR(X_train, X_test, y_train, y_test):
     print('Logistic Regression:')
     # param_grid = {'C': [0.1,1,10,100],'solver': ['newton-cg', 'lbfgs']}
     # grid = GridSearchCV(LogisticRegression(max_iter=1000,random_state=0), param_grid=param_grid, n_jobs=-1)
-    # grid.fit(X_train, y_train)
+    # grid.fit(trainX, y_train)
     # df = pd.DataFrame(grid.cv_results_)
     # print(df[['param_C', 'param_solver', 'mean_test_score', 'rank_test_score']])
 
-    model = LogisticRegression(C=10, max_iter=1000, n_jobs=-1, solver='lbfgs')
+    model = LogisticRegression(C=1000, max_iter=1000, n_jobs=-1, solver='newton-cg')
     model.fit(X_train, y_train)
     prediction = model.predict(X_test)
-    print("ACC",100 * accuracy_score(y_test, prediction))
-    print("RMSE:", mean_squared_error(y_test, prediction,squared=False))
+    print("ACC", 100 * accuracy_score(y_test, prediction))
+    print("RMSE:", mean_squared_error(y_test, prediction, squared=False))
     print("MAE:", mean_absolute_error(y_test, prediction))
     print("F1:", 100 * precision_recall_fscore_support(y_test, prediction)[2])
     print("ROC:", 100 * roc_auc_score(y_test, prediction))
@@ -246,8 +245,8 @@ def DT(X_train, X_test, y_train, y_test):
     model = DecisionTreeClassifier(random_state=0)
     model.fit(X_train, y_train)
     prediction = model.predict(X_test)
-    print("ACC",100 * accuracy_score(y_test, prediction))
-    print("RMSE:", mean_squared_error(y_test, prediction,squared=False))
+    print("ACC", 100 * accuracy_score(y_test, prediction))
+    print("RMSE:", mean_squared_error(y_test, prediction, squared=False))
     print("MAE:", mean_absolute_error(y_test, prediction))
     print("F1:", 100 * precision_recall_fscore_support(y_test, prediction)[2])
     print("ROC:", 100 * roc_auc_score(y_test, prediction))
@@ -258,16 +257,16 @@ def RF(X_train, X_test, y_train, y_test):
     print('Random Forest:')
     # param_grid = {'n_estimators':[10,100,1000]}
     # grid = GridSearchCV(RandomForestClassifier(random_state=0), param_grid=param_grid, n_jobs=-1)
-    # grid.fit(X_train, y_train)
+    # grid.fit(trainX, y_train)
     # df = pd.DataFrame(grid.cv_results_)
     # print(df[['param_criterion', 'mean_test_score', 'rank_test_score']])
 
-    model = RandomForestClassifier(n_estimators=20, min_samples_leaf=1, max_features='auto',  # max_depth=10,
+    model = RandomForestClassifier(n_estimators=100, min_samples_leaf=1, max_features='auto',  # max_depth=10,
                                    random_state=0, n_jobs=-1)
     model.fit(X_train, y_train)
     prediction = model.predict(X_test)
-    print("ACC:",100 * accuracy_score(y_test, prediction))
-    print("RMSE:", mean_squared_error(y_test, prediction,squared=False))
+    print("ACC:", 100 * accuracy_score(y_test, prediction))
+    print("RMSE:", mean_squared_error(y_test, prediction, squared=False))
     print("MAE:", mean_absolute_error(y_test, prediction))
     print("F1:", 100 * precision_recall_fscore_support(y_test, prediction)[2])
     print("ROC:", 100 * roc_auc_score(y_test, prediction))
@@ -279,8 +278,12 @@ def SVM(X_train, X_test, y_train, y_test):
     model.fit(X_train, y_train)
     prediction = model.predict(X_test)
     print('SVM:')
-    print(100 * accuracy_score(y_test, prediction))
-    print(confusion_matrix(y_test, prediction))
+    print("ACC:", 100 * accuracy_score(y_test, prediction))
+    print("RMSE:", mean_squared_error(y_test, prediction, squared=False))
+    print("MAE:", mean_absolute_error(y_test, prediction))
+    print("F1:", 100 * precision_recall_fscore_support(y_test, prediction)[2])
+    print("ROC:", 100 * roc_auc_score(y_test, prediction))
+    print(confusion_matrix(y_test, prediction), "\n")
 
 
 def RBM(X_train, X_test, y_train, y_test):
@@ -313,9 +316,9 @@ def RBM1(X_train, X_test, y_train, y_test):
     print("Custom RBM:")
     n = X_train.to_numpy()
     g1 = rbm.RBM(num_visible=1034, num_hidden=1)
-    g1.train(n)
+    g1.train(n,max_epochs=4)
     user = X_test.to_numpy()
-    # print(np.array([X_train.loc[2732].to_numpy()]))
+    # print(np.array([trainX.loc[2732].to_numpy()]))
     prediction = pd.DataFrame(g1.run_visible(user))
     # print(prediction)
     print("ACC:", 100 * accuracy_score(y_test, prediction))
@@ -331,15 +334,19 @@ def RBM1(X_train, X_test, y_train, y_test):
 def RBMD(X_train, X_test, y_train, y_test):
     print("Custom RBM")
     n = X_train.to_numpy()
-    g1 = rbmD.RBM((1034, 100))
-    g1.train(n, max_epochs=3)
+    g1 = rbmD.RBM((1034,1000))
+    g1.train(n, max_epochs=1
+             )
     user = X_test.to_numpy()
-    # print(np.array([X_train.loc[2732].to_numpy()]))
+    # print(np.array([trainX.loc[2732].to_numpy()]))
     inp = pd.DataFrame(g1.run_visible(n))
     prediction = pd.DataFrame(g1.run_visible(user))
-    # print(100 * accuracy_score(y_test, prediction))
-    # print(confusion_matrix(y_test, prediction),"\n")
-    # print(prediction)
+    # print("ACC:", 100 * accuracy_score(y_test, prediction))
+    # print("RMSE:", mean_squared_error(y_test, prediction, squared=False))
+    # print("MAE:", mean_absolute_error(y_test, prediction))
+    # print("F1:", 100 * precision_recall_fscore_support(y_test, prediction)[2])
+    # print("ROC:", 100 * roc_auc_score(y_test, prediction))
+    # print(confusion_matrix(y_test, prediction), "\n")
     print("Custom RBM + LR:")
     mod = LogisticRegression(C=10)
     mod.fit(inp, y_train)
@@ -383,8 +390,8 @@ def LRBM(X_train, X_test, y_train, y_test):
     print(confusion_matrix(y_test, prediction), "\n")
 
 
-
 rawData = pd.read_csv('preprocessedR.csv')
+# X= pd.read_csv('noisePoisson.csv')
 y = rawData[['FLAG']]
 X = rawData.drop(['FLAG', 'CONS_NO'], axis=1)
 
@@ -396,23 +403,27 @@ print("Classification assuming no fraud:     %.2f" % (y[y['FLAG'] == 0].count()[
 X.columns = pd.to_datetime(X.columns)  # columns reindexing according to dates
 X = X.reindex(X.columns, axis=1)
 # print(X)
-# over=SMOTE(sampling_strategy=0.3,random_state=0)
-# Xo,yo=over.fit_resample(X,y)
-# print(Xo.shape,yo.shape)
-# X_train, X_test, y_train, y_test = train_test_split(Xo, yo['FLAG'], test_size=0.1, random_state=0)
+
+
 X_train, X_test, y_train, y_test = train_test_split(X, y['FLAG'], test_size=0.1, random_state=0)
+print(X_train.shape, y_train.shape, y_train[y_train == 1].count(), y_train[y_train == 0].count())
+print(X_test.shape, y_test.shape, y_test[y_test == 1].count(), y_test[y_test == 0].count())
+
+# over = SMOTE(sampling_strategy=0.2, random_state=0)
+# trainX,y_train=over.fit_resample(trainX,y_train)
+# print(trainX.shape,y_train.shape,y_train[y_train==1].count(),y_train[y_train==0].count())
 print("Test set assuming no fraud:     %.2f" % (y_test[y_test == 0].count() / y_test.shape[0] * 100), "%")
 
 print(X.head())
 
-NN(X_train, X_test, y_train, y_test)
-CNN1D(X_train, X_test, y_train, y_test)
-CNN2D(X_train, X_test, y_train, y_test)
-# SVM(X_train, X_test, y_train, y_test)
-# RBM(X_train, X_test, y_train, y_test)
-# RBM1(X_train, X_test, y_train, y_test)
-# RBMD(X_train, X_test, y_train, y_test)
-# LRBM(X_train, X_test, y_train, y_test)
-# DT(X_train, X_test, y_train, y_test)
-# RF(X_train, X_test, y_train, y_test)
-# LR(X_train, X_test, y_train, y_test)
+# NN(trainX, X_test, y_train, y_test)
+# CNN1D(trainX, X_test, y_train, y_test)
+# CNN2D(trainX, X_test, y_train, y_test)
+# SVM(trainX, X_test, y_train, y_test)
+# RBM(trainX, X_test, y_train, y_test)
+# RBM1(trainX, X_test, y_train, y_test)
+RBMD(X_train, X_test, y_train, y_test)
+# LRBM(trainX, X_test, y_train, y_test)
+# RF(trainX, X_test, y_train, y_test)
+# LR(trainX, X_test, y_train, y_test)
+# DT(trainX, X_test, y_train, y_test)

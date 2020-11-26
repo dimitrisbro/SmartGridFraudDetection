@@ -13,7 +13,7 @@ nn[['AUC', 'Accuracy']].plot(ax=axs[0], grid=True)
 axs[0].set_title('AUC and Accuracy dependency on Epochs ', fontsize=16)
 axs[0].set_xlabel('Number of Epochs')
 
-nn[['F1 (0)', 'F1 (1)']].plot(ax=axs[1], grid=True)
+nn[['F1 (0)', 'F1 (1)']].plot(ax=axs[1], grid=True,color=['red','green'])
 axs[1].set_title('F1 (0) and F1 (1) ', fontsize=16)
 axs[1].set_xlabel('Number of Epochs')
 
@@ -29,7 +29,7 @@ cnn1[['AUC', 'Accuracy']].plot(ax=axs2[0], grid=True)
 axs2[0].set_title('AUC and Accuracy dependency on Epochs ', fontsize=14)
 axs2[0].set_xlabel('Number of Epochs')
 
-cnn1[['F1 (0)', 'F1 (1)']].plot(ax=axs2[1], grid=True)
+cnn1[['F1 (0)', 'F1 (1)']].plot(ax=axs2[1], grid=True,color=['red','green'])
 axs2[1].set_title('F1 (0) and F1 (1) ', fontsize=16)
 axs2[1].set_xlabel('Number of Epochs')
 
@@ -45,7 +45,7 @@ cnn2[['AUC', 'Accuracy']].plot(ax=axs3[0], grid=True)
 axs3[0].set_title('AUC and Accuracy dependency on Epochs ', fontsize=14)
 axs3[0].set_xlabel('Number of Epochs')
 
-cnn2[['F1 (0)', 'F1 (1)']].plot(ax=axs3[1], grid=True)
+cnn2[['F1 (0)', 'F1 (1)']].plot(ax=axs3[1], grid=True,color=['red','green'])
 axs3[1].set_title('F1 (0) and F1 (1) ', fontsize=16)
 axs3[1].set_xlabel('Number of Epochs')
 

@@ -11,8 +11,13 @@ model1.py
 trx.txt
 .idea
 data.csv
-preprocessed.csv
+rbm.py
+preprocessedC.csv
+preprocessedR.csv
 visualization.csv
+1D-Cnn Epochs Results.csv
+2D-CNN Epochs Results.csv
+NN epochs results.csv
 preprocessed.7z
 Smart meters Residential post-trial survey data.csv
 Smart meters Residential pre-trial survey data.csv

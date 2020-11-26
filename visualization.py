@@ -2,9 +2,9 @@ import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 
-rawData1 = pd.read_csv('/home/db/Documents/dipl/visualization.csv', nrows=3)
+rawData1 = pd.read_csv('visualization.csv', nrows=3)
 cols = rawData1.columns
-rawData2 = pd.read_csv('/home/db/Documents/dipl/visualization.csv', skiprows=40254)
+rawData2 = pd.read_csv('visualization.csv', skiprows=40254)
 rawData2.columns = cols
 data = pd.concat([rawData1, rawData2], ignore_index=True)
 
